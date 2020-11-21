@@ -69,3 +69,57 @@ Whitespace is **USUALLY** insignificant
 - infix operator(*, /, %, +, -, >=, <=, >, <, , ===, !==, &&, ||)
 - invocation func(expression,)
 - refinement (.name, [name])
+ ## CHAPTER 3: Objects
+ - numbers, strings, booleans, null, and undefined are simple types(object-like) & immutable.
+ - Objects are container of proprieties.
+ - Property compose of name(any string) & value(not undefined).
+ - if the name is not legal use quotes
+ - Objects in JavaScript are class-free.
+ - JavaScript includes a prototype linkage feature that allows one objects to inherit.
+ ### Retrieval
+ - wrapping string expression in [ ].
+ - using the dot notation.
+ - undefined when if an attempt to access a non-existence value (use || for default).
+ - undefined is throwing TypeError if it attempts to access it.
+### Update
+- Can be updated by assignment.
+### Reference
+- Objects passed around by reference.
+### Prototype
+- Every object linked to a prototype object (inheritance).
+- All Objects literal linked to **Object.prototype**
+#### Create an object that inherits from another object 
+```javascript
+if(typeof Object.create !== 'function'){
+    Object.create = function (o) {
+        var F = function () {};
+        F.prototype = o;
+        return new F();
+    }
+}
+var another_stooge = Object.create(stooge);
+```
+- Prototype link has no effect on updating.
+- Used only for retrieval (called delegation)
+- Prototype relation is a dynamic relationship.
+### Reflection
+- To examine the existence of a property we can use typeof, hasOwnProperty(method).
+### Enumeration
+- for in can loop over all the property of an object.
+- no order of the names of the properties.
+### Delete
+- Delete Operator can be used to remove a property from an object.
+- It will not touch any value in the prototype.
+### Global Abatement
+- The Global var weaken the resiliency of the application.
+- to optimize use a single var 
+```javascript
+var MY_APP = {};
+MY_APP.stooge = {};
+//...
+```
+
+
+
+ 
+ 
