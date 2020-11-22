@@ -2,11 +2,6 @@
     Chapter 1: Good Parts
  */
 document.write("Hello World<br/>")
-//Will be explained in Chapter 4
-Function.prototype.method = function (name, func){
-    this.prototype[name] = func
-    return this;
-}
 /*
     Chapter 3: Objects
  */
@@ -142,10 +137,8 @@ var sumOfArgs = function (){
 console.log("Sum:",sumOfArgs(4, 8, 15, 16, 23), "is Equal to 66")
 console.log("*** Augmenting Types ***")
 Function.prototype.method = function (name, func){
-    if(!this.prototype[name]){
-        this.prototype[name] = func
-        return this;
-    }
+    this.prototype[name] = func
+    return this;
 }
 Number.method('integer', function () {
     return Math[this < 0 ? 'ceil' : 'floor'](this)
@@ -337,3 +330,197 @@ var making_fact = memoizer([1, 1], function (recur, n){
     return n* recur(n-1);
 })
 console.log("making_fact(10):", making_fact(10))
+/*
+    Chapter 5: Inheritance
+ */
+console.log("*** Pseudo classical ***")
+// If the new operator was a method
+Function.method('new', function (){
+    //create an object with the this prototype in prototype
+   var that = Object.create(this.prototype)
+
+   var other = this.apply(that, arguments);
+
+   return (typeof other === 'object' && other) || that;
+});
+function Using_for_creation(){
+    this.name = 'Using for creation'
+    return this;
+}
+const new_object = Using_for_creation.new()
+console.log("new_object.name:", new_object.name)
+var Mammal = function (name){
+    this.name = name;
+}
+Mammal.prototype.get_name = function (){
+    return this.name;
+}
+Mammal.prototype.says = function (){
+    return this.saying || '';
+}
+var mammal = new Mammal('Herb the Mammal');
+console.log("mammal.get_name():",mammal.get_name());
+var Cat = function (name) {
+    this.name = name;
+    this.saying = "meow";
+}
+Cat.prototype = new Mammal()
+Cat.prototype.purr = function (n){
+    var i, s='';
+    for(i = 0; i<n; i += 1){
+        if(s){
+            s += '-';
+        }
+        s+= 'r'
+    }
+    return s;
+}
+Cat.prototype.get_name = function () {
+    return this.says() + " " + this.name + " " + this.says();
+}
+var myCat = new Cat('Henrietta');
+console.log('myCat.get_name()', myCat.get_name());
+// Like a *method* but with a constructor
+Function.method('inherits', function (Parent){
+    this.prototype = new Parent();
+    return this;
+})
+var CatCascade = function (name) {
+    this.name = name;
+    this.saying = 'meow';
+}.inherits(Mammal)
+    .method('purr',function (n){
+        var i, s='';
+        for(i = 0; i<n; i += 1){
+            if(s){
+                s += '-';
+            }
+            s+= 'r'
+        }
+        return s;
+    })
+    .method('get_name', function () {
+        return this.says() + " " + this.name + " " + this.says();
+    });
+console.log("new CatCascade('Henrietta').get_name()",  new CatCascade("Henrietta").get_name())
+console.log("*** Prototypal ***")
+// differential inheritance
+var myMammal = {
+    name: 'Herb the Mammal',
+    get_name: function () {
+        return this.name;
+    },
+    says: function () {
+        return this.saying || '';
+    }
+}
+var myCat = Object.create(myMammal);
+myCat.name = 'Henrietta';
+myCat.saying = 'meow';
+myCat.purr = function (n) {
+    var i, s='';
+    for(i = 0; i<n; i += 1){
+        if(s){
+            s += '-';
+        }
+        s+= 'r'
+    }
+    return s;
+};
+myCat.get_name = function () {
+    return this.says() + " " + this.name + " " + this.says();
+}
+//we did use object.create to have a new scope of inheritance
+/*
+var block = function () {
+    var oldScope = scope;
+    scope = Object.create(scope);
+    advance('{');
+    parse(scope);
+    advance('}');
+    scope = oldScope;
+}
+*/
+console.log("*** Functional ***")
+var mammal = function (spec) {
+    var that = {};
+
+    that.get_name = function () {
+        return spec.name;
+    };
+
+    that.says = function () {
+        return this.saying || '';
+    }
+
+    return that;
+}
+
+var myMammal = mammal({name: 'Herb'});
+var cat = function (spec) {
+    spec.saying = spec.saying || 'meow';
+    var that = mammal(spec);
+    that.purr = function (n) {
+        var i, s = '';
+        for(i = 0; i < n; i += 1) {
+            if(s) {
+                s += '-';
+            }
+            s += 'r';
+        }
+        return s;
+    };
+    that.get_name = function () {
+        return that.says() + ' ' + spec.name + ' ' + that.says();
+    }
+    return that;
+};
+var myCat = cat({name: 'Henrietta'});
+Object.method('superior', function (name) {
+    var that = this, method = that[name];
+    return function (){
+        return method.apply(that, arguments);
+    }
+})
+var coolcat = function (spec) {
+    var that = cat(spec), super_get_name = that.superior('get_name');
+    that.get_name = function (){
+        return 'like' + super_get_name() + 'baby';
+    }
+    return that;
+}
+var myCoolcat = coolcat({name: 'Bix'});
+console.log("myCoolcat.get_name():", myCoolcat.get_name())
+console.log("*** Parts ***")
+var eventuality = function (that) {
+    var registry = {};
+    that.fire = function (event) {
+        var array, func, handler, i, type = typeof event === 'string' ? event : event.type;
+
+        if(registry.hasOwnProperty(type)){
+            array = registry[type];
+            for(i = 0; i < array.length; i += 1){
+                handler = array[i];
+                func = handler.method;
+                if(typeof func === 'string') {
+                    func = this[func];
+                }
+                func.apply(this, handler.parameters || [event]);
+            }
+        }
+        return this;
+    };
+    that.on = function (type, method, parameters) {
+        var handler = {
+            method: method,
+            parameters: parameters
+        };
+        if(registry.hasOwnProperty(type)) {
+            registry[type].push(handler);
+        } else {
+            registry[type] = [handler];
+        }
+        return this;
+    };
+    return that;
+}

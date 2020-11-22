@@ -68,7 +68,7 @@ Whitespace is **USUALLY** insignificant
 - infix operator(*, /, %, +, -, >=, <=, >, <, , ===, !==, &&, ||)
 - invocation func(expression,)
 - refinement (.name, [name])
- ## CHAPTER 3: Objects
+## CHAPTER 3: Objects
  - numbers, strings, booleans, null, and undefined are simple types(object-like) & immutable.
  - Objects are container of proprieties.
  - Property compose of name(any string) & value(not undefined).
@@ -268,5 +268,93 @@ var making_fib = memoizer([0, 1], function (recur, n) {
     return recur(n-1) + recur(n-2);
 })
 ````
-
-
+## Chapter 5: Inheritance
+- form of code reuse
+- JavaScript objects inherit directly from other objects.
+### Pseudo-classical
+- Objects are constructed by constructor functions; 
+```javascript
+//Function object runs some code like this
+this.prototype = {contructor: this}
+```
+- Every function has a prototype object that contains *constructor*,
+ because the language does not provide a way to determinate which functions are intended to be used as contractors. 
+```javascript
+// Like a *method* but with a constructor
+Function.method('inherits', function (Parent){
+    this.prototype = new Parent();
+    return this;
+})
+```
+#### Example of Cascading for creating objects using inheritance.
+```javascript
+var CatCascade = function (name) {
+    this.name = name;
+    this.saying = 'meow';
+}.inherits(Mammal)
+    .method('purr',function (n){
+        var i, s='';
+        for(i = 0; i<n; i += 1){
+            if(s){
+                s += '-';
+            }
+            s+= 'r'
+        }
+        return s;
+    })
+    .method('get_name', function () {
+        return this.says() + " " + this.name + " " + this.says();
+    });
+new CatCascade("Henrietta").get_name(); // return 'meow Henrietta meow'
+```
+### Object Specifiers
+- Is the use of one object in param (called naming params).
+```javascript
+var myObject = maker({
+    first : f,
+    last: l, 
+    second, s,
+})
+```
+### Prototypal
+- A new object can inherit the properties of an old object.
+### Functional
+- so far we get no privacy.
+#### Making a func that create an object (not a constructor)
+1. It creates the *object*
+2. Optionally define private members(vars, methods).
+3.  it augments that new object with methods.
+4. return that object
+```javascript
+// Pseudo code
+var constructor = function (spec, my){
+    var that;// other private instance vars
+    my = my || {};
+    // Add shared variables and functions to my
+    that = A_NEW_OBJECT
+    // Add privileged methods to that
+    return that
+}
+```
+#### Returning the super method  
+```javascript
+Object.method('superior', function (name) {
+    var that = this, method = that[name];
+    return function (){
+        return method.apply(that, arguments);
+    }
+})
+```
+> If all methods of object make no use of *this* or *that* 
+> then the object is **durable**(methods are called *capabilities*).
+### Parts
+- we can compose objects out of sets of parts.
+```javascript
+var adding_some_features = function (that){
+    //declare private params
+    that.add_new_feature = function (){
+        // optionaly use private params 
+    }
+    return that;
+}
+```
