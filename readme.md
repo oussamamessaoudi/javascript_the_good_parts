@@ -358,3 +358,84 @@ var adding_some_features = function (that){
     return that;
 }
 ```
+## Chapter 6: Arrays
+JavaScript array provides an **object** that has some array-like characteristics.
+### Array Literals
+Array inherits a large set of methods from *Array.prototype*.
+```javascript
+var numbers = ['zero'];
+numbers.length // return 1
+var numbers_object = {'0': 'zero'};
+// numbers and numbers_object are the same expect that numbers inherits from Array.prototype
+```
+### Length
+Every array has a length property.
+> JavaScript Array is not upper bound:
+```javascript
+var myArray = [];
+myArray.length // 0
+myArray[1000] = true;
+myArray.length // 10001
+```
+- Making the length larger does not allocate more space for the array.
+- Making the length smaller delete the overflow elements.
+- append element by *array.push* or *array[array.length] = new_element*
+### Delete
+Since Array in JavaScript are objects we could use the Delete operator.
+ ```javascript
+delete numbers[2]; //Leaves a hole in the array.
+ ```
+-we could use *splice* method.
+````javascript
+numbers.splice(2, 1);// params : startIndex, number of elements to delete
+````
+### Enumeration
+- Array in JavaScript are object then *for in* can be used to iterate over elements (*for in* makes not guarantee about the order of the elements).
+- we could use *for* with aan index.
+### Confusion
+- typeof array is object.
+```javascript
+var is_array = function (value){
+    return Object.prototype.toString.apply(value) === '[object Array]'
+}
+```
+### Methods
+- JavaScript provides a set of methods stocked at *Array.prototype*.
+````javascript
+//Method reducer
+Array.method('reduce', function (f, value){
+    var i;
+    for(i = 0; i< this.length; i += 1){
+        value = f(this[i], value)
+    }
+});
+var sum = numbers.reduce(function (newValue ,previousValue) { newValue+previousValue }, 0);
+````
+> an array has a length property that is not inherited from the prototype.
+### Dimensions
+- JavaScript array are not initialized
+```javascript
+Array.dim = function (dim, initial) {
+    var a = [],i; 
+    for(i = 0; i < dim; i += 1 ){
+        a[i] = initial
+    };
+    return a;
+}
+Array.dim(5, 1);// return [1, 1, 1, 1, 1]
+```
+- JavaScript does not have an array more than one dimension (make an array of array).
+```javascript
+Array.matrix = function (m, n , initial){
+    var matrix = [], line, i, j;
+    for (i = 0; i < m; i += 1){
+        line = [];
+        for(j = 0; i < n; j += 1){
+            line[j] = initial;
+        }
+        matrix[i] = line;
+    }
+    return matrix;
+};
+Array.matrix(2, 2, 0);// return [[0, 0], [0, 0]]
+```

@@ -524,3 +524,75 @@ var eventuality = function (that) {
     };
     return that;
 }
+/*
+    Chapter 6: Arrays
+ */
+console.log("*-*-* Chapter 6: Arrays *-*-*")
+//Array literal
+var empty = [];
+var numbers = [
+    'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'
+];
+console.log("empty[1]:", empty[1])
+console.log("numbers[1]:", numbers[1])
+var numbers_object = {
+    '0': 'zero','1': 'one','2': 'two',
+    '3': 'three','4': 'four', '5': 'five',
+    '6': 'six','7': 'seven','8': 'eight',
+    '9': 'nine'
+};
+//Length
+var myArray = [];
+myArray[1000] = true;
+myArray.length // 10001
+console.log(myArray)
+//Confusion
+var is_array = function (value){
+    return Object.prototype.toString.apply(value) === '[object Array]'
+}
+console.log('is_array(numbers):', is_array(numbers))
+console.log('is_array(numbers_object):', is_array(numbers_object))
+//Methods
+Array.method('reduce', function (f, value){
+    var i;
+    for(i = 0; i< this.length; i += 1){
+        value = f(this[i], value)
+    }
+    return value;
+})
+var sum_of_array = [1, 2, 3, 4].reduce(
+    function (newValue ,previousValue) {
+        return newValue+previousValue
+    },
+    0
+);
+console.log("sum of [1, 2, 3, 4]:", sum_of_array);
+//Dimension
+Array.dim = function (dim, initial) {
+    var a = [], i;
+    for(i = 0; i < dim; i += 1 ){
+        a[i] = initial
+    }
+    return a;
+}
+console.log("Array.dim(5, 1)",Array.dim(5, 1));// return [1, 1, 1, 1, 1]
+Array.matrix = function (m, n , initial){
+    var matrix = [], line, i, j;
+    for (i = 0; i < m; i += 1){
+        line = [];
+        for(j = 0; j < n; j += 1){
+            line[j] = initial;
+        }
+        matrix[i] = line;
+    }
+    return matrix;
+};
+console.log("Array.matrix(4, 4, 0):", Array.matrix(4, 4, 0))
+Array.identity = function (n){
+    var i, matrix =  Array.matrix(n, n , 0);
+    for (i = 0 ; i< n; i += 1){
+        matrix [i][i] = 1;
+    }
+    return matrix;
+}
+console.log("Array.identity(3):", Array.identity(3))
