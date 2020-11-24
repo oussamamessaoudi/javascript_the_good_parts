@@ -596,3 +596,31 @@ Array.identity = function (n){
     return matrix;
 }
 console.log("Array.identity(3):", Array.identity(3))
+/*
+    Chapter 7: Regular Expressions
+ */
+console.log("*-*-* Chapter 7: Regular Expressions *-*-*")
+var parse_url = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^^#]*))?(?:#(.*))?$/;
+var url = "http://www.google.com:80/goodparts?q#fragment";
+var result = parse_url.exec(url);
+var names = ['url', 'scheme', 'slash', 'host', 'port', 'path', 'query', 'hash'];
+var blanks = '      ';
+var i;
+for(i = 0; i < names.length; i += 1){
+    console.log(names[i] + ': ' + blanks.substring(names[i].length) , result[i]);
+}
+var parse_number = /^-?\d+(?:\.\d*)?(?:e[+/-]?\d+)?$/i
+console.log("parse_number.test('1')", parse_number.test('1'));
+console.log("parse_number.test('number')", parse_number.test('number'));
+console.log("parse_number.test('89.6')", parse_number.test('89.6'));
+console.log("parse_number.test('132.21.86.100')", parse_number.test('132.21.86.100'));
+console.log("parse_number.test('123.45E-67')", parse_number.test('123.45E-67'));
+console.log("parse_number.test('123.45D-67')", parse_number.test('123.45D-67'));
+
+function make_a_matcher(){
+    return /a/gi;
+}
+var x = make_a_matcher()
+var y = make_a_matcher()
+x.lastIndex = 10;
+console.log("y.lastIndex", y.lastIndex)

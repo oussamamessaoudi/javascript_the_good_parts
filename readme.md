@@ -439,3 +439,36 @@ Array.matrix = function (m, n , initial){
 };
 Array.matrix(2, 2, 0);// return [[0, 0], [0, 0]]
 ```
+## Chapter 7: Regular Expressions
+- A *regular expression* is the specification of the syntax of a simple language.
+- Methods : *regexp.exec*, *regexp.test*, *string.match*, *string.replace*, *string.search* and *string.split*.
+```
+    (^)     the start.
+    (?:)    a noncaptring group.
+    ?       optionnal(zero or one time).
+    (...)   a capturing group.
+    [...]   indicate a character class (A-Z a-z A-Za-z 1-9 ...).
+    +       indicates that the charcter class will be macthed one or more time. 
+    \       escaping caractere.
+    {1, 5}  will be matched from one to 5 times.
+    \d      represents a digit character(\D is the opposite).
+    \s      white space
+    \w      word  
+    \number look at word that captured by group number.
+    *       indicates that the charcter class will be macthed zero or more time. 
+    [^bc]   all characters expect b and c.
+    $       represents the end of a string.
+    \i      insensitive(option)
+    \m      multiline
+    \g      gloabl(match multiple times)
+```
+- Literal Regular expression: /.../
+- Using RegExp class: RegExp(regex, options) [use if u want to build regex at runtime]
+> RegExp made by regular expression literals share a single instance (?) 
+### Elements
+- Regex Choice : The sequences are separated by the **|**
+- Regex Factor : character, parenthesized group, character class, scape sequence.
+- Regex Escape : the backslash \
+- Regex Group  : is a group that is wrapped in parentheses.
+- Regex Class  : [set of characters]
+- Regex Quantifier : {number to match} (\w{3,5}), *, +, ?
