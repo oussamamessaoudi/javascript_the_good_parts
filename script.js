@@ -624,3 +624,64 @@ var x = make_a_matcher()
 var y = make_a_matcher()
 x.lastIndex = 10;
 console.log("y.lastIndex", y.lastIndex)
+/*
+    Chapter 8: Methods
+ */
+console.log("*-*-* Chapter 8: Methods *-*-*")
+console.log("*** Arrays ***")
+var n = [ 4, 8, 15, 16, 23, 42];
+n.sort();
+console.log("[ 4, 8, 15, 16, 23, 42].sort()",n.sort());
+var n_sorted = n.sort(function (a, b) {
+    return a - b;
+})
+console.log("[ 4, 8, 15, 16, 23, 42].sort(byFunc)", n_sorted);
+var m = ['aa', 'bb', 'a', 4, 8, 15, 16, 23, 42];
+m_sorted = m.sort(function (a, b){
+   if(a === b) return 0;
+   if(typeof a === typeof b) return a < b? -1:1;
+   return typeof a < typeof b ? -1:1;
+});
+console.log("['aa', 'bb', 'a', 4, 8, 15, 16, 23, 42].sort(byfunc)", m_sorted)
+var by = function (major, minor) {
+    return function (o, p){
+        var a, b;
+        if(typeof o === 'object' && typeof p === 'object' && o && p){
+            a = o[major];
+            b = p[major];
+            if( a === b) return typeof minor === 'function' ? minor(o, p) : 0;
+            if(typeof a === typeof b) return a > b ? 1 : -1;
+            return typeof a > typeof b ? 1 : -1;
+        }
+        else {
+         throw {
+             name: 'Error',
+             message: 'Expected an object when sorting by ' + major
+         }
+        }
+    }
+};
+var s = [
+    {first: "Imad", hero: "hulk"},
+    {first: "Oussama", hero: 'man'},
+    {first: "Oussama", hero: 'iron'},
+    {first: "Najoua", hero: 'sam'}
+];
+console.log("s.sort(by(\"first\"))", s.sort(by("first")));
+console.log("s.sort(by('first'), by('hero'))", s.sort(by("first", by('hero'))));
+//splice
+var a = ['a', 'b', 'c']
+console.log("a:", a)
+console.log("a.splice(1, 1, 'ache', 'bug'):", a.splice(1, 1, 'ache', 'bug'))
+console.log("a:", a)
+//Function
+Function.method('bind', function (that) {
+    var method = this;
+    return function (){
+        return method.apply(that, arguments);
+    }
+});
+function showValue() {
+    return this.value;
+}
+console.log(showValue.bind({value: 12})())

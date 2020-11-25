@@ -472,3 +472,44 @@ Array.matrix(2, 2, 0);// return [[0, 0], [0, 0]]
 - Regex Group  : is a group that is wrapped in parentheses.
 - Regex Class  : [set of characters]
 - Regex Quantifier : {number to match} (\w{3,5}), *, +, ?
+## Chapter 8: Methods
+JacaScript includes a small set of standard methods.
+### Array
+- array.concat(item...): return new array containing a shallow copy of this *array* with the items appended to it.
+- array.join(separator): makes a string from an *array*.
+- array.pop(): removes and return the last element.
+- array.push(item...): appends elements to the end of an *array*.
+- array.reverse(): reversing element in the array.
+- array.shift(): return and remove the first element.
+- array.slice(start, end): a shallow copy of a portion of an *array*.
+- array.sort(comparefn): sorting an array take a func of two params and return an int.
+- array.splice(start, deleteCount, item...): return the removed items and replacing them with new items.
+- array.unshift(item...): push from the start, return new length.
+### Function
+- function.apply(thisArgs, argArray): passing the object that will be bound to *this* and an optional array of arguments.
+### Number
+- number.toExponential(frationDigits): number to a string in the exponential from.
+- number.tofixed(fractionDigits): number to a string in the decimal form.
+- number.Precision(fractionDigits): number to a string in the decimal form.
+- number.toString(radix): number to a string, radix si the base.
+### Object
+- object.hasOwnProperty(name): return true if the object has the property name.
+### RegExp
+- regexp.exec(string): if it successfully it returns an *array* else it returns *null* (changing regexp.lastIndex).
+- regexp.test(string): returns a boolean.
+### String
+- string.charAt(pos): returns the character at position *pos*.
+- string.charCodeAt(pos): returning an integer.
+- string.concat(string...): concat two string to a new one.
+- string.indexOf(searchString, pos): searching withing the string.
+- string.lastIndexOf(searchString, pos): last index of the searchString in string.
+- string.localeCompare(that): return an integer for the comparison.
+- string.match(regexp): if g flag same as regexp.exec(string) or an array of match with capturing group.
+- string.replace(searchValue, replaceValue): replace operation on this string.
+- string.search(regexp): return the position of the first match.
+- string.slice(start, end): substring handling negative values.
+- string.split(separator, limit): creating an array of a string into *limit* pieces.
+- string.substring(start, end): return a substring.
+- string.toLocalLowerCase(): return a lowercase string using the local.
+- string.toLocalUpperCase(): return a uppercase string using the local.
+- string.fromCharCode(char...): contracting a string from a list of numbers.
